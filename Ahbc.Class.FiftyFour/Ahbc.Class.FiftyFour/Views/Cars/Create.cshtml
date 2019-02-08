@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Car</h4>
         <hr />
@@ -61,23 +61,23 @@
             $("#addAndContinue").click(function () {
                 var car = {};
                 car.name = $("#Name").val();
-                car.mileage = $("#Mileage").val();  
-                car.color = $("#Color").val();  
-                
-                $.ajax({  
-                    type: "POST",  
-                    url: 'http://localhost:57672/api/cars',  
-                    data: JSON.stringify(car),  
-                    dataType: "json",  
-                    contentType: "application/json; charset=utf-8",  
-                    success: function () {  
-                        $("#Name").val('');  
-                        $("#Mileage").val('');  
-                        $("#Color").val('');  
-                    },  
-                    error: function () {  
-                        alert("Error while inserting data");  
-                    }  
+                car.mileage = $("#Mileage").val();
+                car.color = $("#Color").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Content("~/api/cars")',
+                    data: JSON.stringify(car),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $("#Name").val('');
+                        $("#Mileage").val('');
+                        $("#Color").val('');
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
                 });
             });
         });
