@@ -42,9 +42,27 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
+        <dt>
+            Quantity
+        </dt>
+
+        <dd>
+            <span id="quantity"></span>
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Order", "Create", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section Scripts
+{
+<script language="javascript">
+    $.get("http://localhost:65455/api/inventories/@Model.Id", function (data) {
+        $("#quantity").text(data.Quantity);
+    });
+</script>
+}
