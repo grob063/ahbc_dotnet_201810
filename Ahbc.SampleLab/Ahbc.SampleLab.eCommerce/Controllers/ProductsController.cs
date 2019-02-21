@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Ahbc.SampleLab.eCommerce.DAL;
 using Ahbc.SampleLab.eCommerce.Models;
-using System.Net.Http;
+using Ahbc.SampleLab.eCommerce.Services;
 
 namespace Ahbc.SampleLab.eCommerce.Controllers
 {
     public class ProductsController : Controller
     {
-        private ProductDbContext db = new ProductDbContext();
+        private readonly ProductService _service = new ProductService();
 
         // GET: Products
         public async Task<ActionResult> Index()
         {
-            return View(await db.Products.ToListAsync());
+            return View(await _service.Get());
         }
 
         // GET: Products/Details/5
@@ -30,11 +23,13 @@ namespace Ahbc.SampleLab.eCommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = await db.Products.FindAsync(id);
+
+            Product product = await _service.Get(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
             }
+
             return View(product);
         }
 
@@ -53,10 +48,7 @@ namespace Ahbc.SampleLab.eCommerce.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Inventory inventory)
         {
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:65455/");
-            var response = await client.PutAsJsonAsync($"api/inventories/{inventory.ID}", inventory);
-
+            await _service.UpdateInventory(inventory);
             return RedirectToAction("Details", new {Id = inventory.ID });
         }
 
@@ -64,7 +56,7 @@ namespace Ahbc.SampleLab.eCommerce.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }
