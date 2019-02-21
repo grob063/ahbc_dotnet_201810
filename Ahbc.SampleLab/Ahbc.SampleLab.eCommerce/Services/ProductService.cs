@@ -8,7 +8,7 @@ using System;
 
 namespace Ahbc.SampleLab.eCommerce.Services
 {
-    public class ProductService : IDisposable
+    public class ProductService : IProductService
     {
         private ProductDbContext db = new ProductDbContext();
 

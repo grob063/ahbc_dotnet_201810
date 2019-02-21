@@ -8,7 +8,12 @@ namespace Ahbc.SampleLab.eCommerce.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ProductService _service = new ProductService();
+        private readonly IProductService _service;
+
+        public ProductsController(IProductService service)
+        {
+            _service = service;
+        }
 
         // GET: Products
         public async Task<ActionResult> Index()
