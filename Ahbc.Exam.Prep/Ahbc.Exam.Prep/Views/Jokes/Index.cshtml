@@ -1,0 +1,18 @@
+﻿@model Ahbc.Exam.Prep.Models.Joke
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>@Model.Value</div>
+
+@section Scripts
+{
+    <script language="javascript">
+        $.get("https://api.chucknorris.io/jokes/random", function(data) {
+            alert(data.value);
+        });
+    </script>
+}
