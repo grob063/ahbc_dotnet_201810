@@ -30,7 +30,7 @@ namespace Ahbc.SampleLab.eCommerce.DependencyResolution {
                     scan.WithDefaultConventions();
 					scan.With(new ControllerConvention());
                 });
-            For<IProductService>().Use<ProductTestService>();
+            //For<IProductService>().Use<ProductTestService>();
         }
 
         #endregion

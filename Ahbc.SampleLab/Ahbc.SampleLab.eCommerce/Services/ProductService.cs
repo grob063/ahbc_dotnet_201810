@@ -5,21 +5,28 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System;
+using Ahbc.SampleLab.eCommerce.Repositories;
 
 namespace Ahbc.SampleLab.eCommerce.Services
 {
     public class ProductService : IProductService
     {
-        private ProductDbContext db = new ProductDbContext();
+        private readonly IProductRepository _repository;
+
+        public ProductService(IProductRepository repository)
+        {
+            _repository = repository;
+        }
 
         public async Task<IEnumerable<Product>> Get()
         {
-            return await db.Products.ToListAsync();
+            // Business Logic Here
+            return await _repository.Get();
         }
 
         public async Task<Product> Get(int id)
         {
-            return await db.Products.FindAsync(id);
+            return await _repository.Get(id);
         }
 
         public async Task UpdateInventory(Inventory inventory)
@@ -32,7 +39,7 @@ namespace Ahbc.SampleLab.eCommerce.Services
 
         public void Dispose()
         {
-            db.Dispose();
+            _repository.Dispose();
         }
     }
 }
